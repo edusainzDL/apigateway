@@ -1,0 +1,10 @@
+
+CREATE TABLE books (
+	id UUID NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	author VARCHAR(100) NOT NULL, 
+	ean VARCHAR(15), 
+	price NUMERIC(5, 2) NOT NULL, 
+	PRIMARY KEY (id)
+)
+

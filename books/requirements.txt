@@ -1,0 +1,11 @@
+fastapi
+SQLAlchemy
+pydantic
+pydantic-settings
+pyliquibase
+pyjnius
+psycopg2
+requests
+strawberry-graphql[fastapi]
+uvicorn
+

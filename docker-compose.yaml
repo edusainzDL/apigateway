@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  books:
+    image: books
+    hostname: books-fastapi.docker
+    build:
+      context: ./
+      dockerfile: ./books/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ${LOCAL_PATH}/${BOOKS_API}:/home/${USER_NAME}/project
+    networks:
+      - apigateway
+      - sql
+    ports:
+      - 8000:8000
+
+networks:
+  apigateway:
+    external: true
+  sql:
+    external: true

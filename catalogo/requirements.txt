@@ -1,7 +1,0 @@
-fastapi
-SQLAlchemy
-pydantic
-requests
-strawberry-graphql[fastapi]
-uvicorn
-
