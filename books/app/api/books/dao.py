@@ -2,11 +2,13 @@
 from app.api.books.model import Book
 from app.database.database import Database
 from sqlalchemy import select
+import traceback
+from sqlalchemy.orm import Session
 
 class BookDAO:
-
+    __db: Session
     def __init__(self) -> None:
-         self.__db = Database().get_db_session()
+        self.__db = Database().get_db_session()
     
     def get_all(self):
         try:
@@ -14,6 +16,7 @@ class BookDAO:
             return books
         except Exception as err:
             self.__db.rollback()
+            traceback.print_exc()
             raise RuntimeError('ERROR_GET_ALL')
     
     def get_id(self,book_id):

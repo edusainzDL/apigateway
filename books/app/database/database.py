@@ -11,7 +11,7 @@ class SingletonMeta(type):
         if cls not in cls.__instances:
             instance = super().__call__(*args, **kwargs)
             cls.__instances[cls] = instance
-        return cls.__instances
+        return cls.__instances[cls]
 
 class Database(metaclass=SingletonMeta):
 
@@ -21,13 +21,15 @@ class Database(metaclass=SingletonMeta):
 
     def __init__(self) -> None:
         self.engine = create_engine(
-            settings.DATABASE_URL
+            settings.DATABASE_URL,
+            isolation_level = 'AUTOCOMMIT',
+            pool_use_lifo=True
         )
 
         self.Base.metadata.create_all(self.engine)
     
     def get_db_session(self):
         if self.session is None:
-            self.session = sessionmaker(base=self.engine, future=True)
+            self.session = sessionmaker(bind=self.engine, future=True)
             self.session = self.session()
         return self.session
