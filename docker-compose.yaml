@@ -18,6 +18,23 @@ services:
       - sql
     ports:
       - 8000:8000
+  stores:
+    image: stores
+    hostname: stores-fastapi.docker
+    build:
+      context: ./
+      dockerfile: ./store/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+    command: go run main.go
+    volumes:
+      - ${LOCAL_PATH}/${STORES_API}:/home/${USER_NAME}/project
+    networks:
+      - apigateway
+      - sql
+    ports:
+      - 8001:8080
 
 networks:
   apigateway:
