@@ -27,10 +27,17 @@ RUN apt update && apt install -y \
 WORKDIR /home/${USER_NAME}/project
 
 COPY store/app/go.mod /home/${USER_NAME}/project
+COPY store/app/go.sum /home/${USER_NAME}/project
+
 
 RUN go mod download 
-RUN go mod download github.com/gin-gonic/gin
+# RUN go mod download github.com/gin-gonic/gin
 RUN go get -u github.com/gin-gonic/gin
+RUN go get -u gorm.io/gorm
+RUN go get -u gorm.io/driver/postgres
+RUN go get -u github.com/spf13/viper
+
+
 
 
 RUN useradd -u ${USER_ID} -ms /bin/bash ${USER_NAME} \
