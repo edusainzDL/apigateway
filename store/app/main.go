@@ -17,7 +17,7 @@ func main() {
 	db.AutoMigrate(&store.Stores{})
 	settings := core.Settings()
 	fmt.Println(settings)
-	store.StoresRouter(r)
+	store.StoresRouter(r,db)
 	// r.GET("/stores", store.StoresRouter)
 	r.Run()
 }

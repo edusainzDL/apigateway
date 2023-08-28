@@ -2,22 +2,34 @@ package store
 
 import "github.com/gin-gonic/gin"
 import "net/http"
-// import "fmt"
+import "fmt"
+import "gorm.io/gorm"
 
-type store struct {
-	ID string `json:"id"`
-	Name string `json:name`
-	Location string `json:location`
-}
 
-var stores = []store {
-	{ID: "1", Name: "Sucursa Cielo", Location: "Av Cielo #567. Deelgación Benito Juárez. Ciudad de México."},
-    {ID: "2", Name: "Sucursal Alfa", Location: "Calle Alfa #22. Guadalajara, Jalisco."},
-    {ID: "3", Name: "Sucursal Guerrero", Location: "Boulevard de la paz #3456. Acapulco. Guerrero."},
-}
-
-func getStores() gin.HandlerFunc {
+func getStores(db *gorm.DB) gin.HandlerFunc {
 	return func (c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, stores)
+		stores := dao_get_stores(db)
+		var __stores []Store
+		for store := range stores {
+
+			sto := GetStoreSchema(stores[store])
+			__stores = append(__stores,sto)
+		}
+		ResponseStoreAll(c, __stores)
 	}
-} 
+}
+
+func CreateStore(db *gorm.DB) gin.HandlerFunc {
+	return func (c *gin.Context) {
+		var __store StoreCreate
+		if err := c.ShouldBindJSON(&__store); err != nil {
+			c.IndentedJSON(http.StatusBadRequest, gin.H{"error":err.Error()})
+			return
+		}
+		store := dao_create_store(db,__store)
+		store_dto := GetStoreSchema(store)
+		fmt.Println(__store.Name)
+		ResponseCreate(c, store_dto)
+		return
+	}
+}
