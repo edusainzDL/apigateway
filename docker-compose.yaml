@@ -18,6 +18,21 @@ services:
       - sql
     ports:
       - 8000:8000
+  gateway:
+    image: gateway
+    hostname: gateway.docker
+    build:
+      context: ./
+      dockerfile: ./gateway/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - USER_NAME=${USER_NAME}
+    networks:
+      - apigateway
+      - sql
+    ports:
+      - 443:443
+    
   stores:
     image: stores
     hostname: stores-fastapi.docker
