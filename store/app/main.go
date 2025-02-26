@@ -19,5 +19,6 @@ func main() {
 	fmt.Println(settings)
 	store.StoresRouter(r,db)
 	// r.GET("/stores", store.StoresRouter)
+	
 	r.Run()
 }
