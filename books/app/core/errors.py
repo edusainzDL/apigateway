@@ -7,5 +7,5 @@ responses = {
     "ERROR_UPDATED"    : JSONResponse(status_code=400,content=Handler.error_handler("Error al eliminar el catalogo")),
     "ERROR_DELETED"    : JSONResponse(status_code=400,content=Handler.error_handler("Error al eliminat el catalogo")),
     "ERROR_GET_ALL"    : JSONResponse(status_code=400,content=Handler.error_handler("Error al obtener la lista de catalogos")),
-    "ERROR_SERVER"     : JSONResponse(status_code=400,content=Handler.error_handler("Error del servidor")),
+    "ERROR_SERVER"     : JSONResponse(status_code=400,content=Handler.error_handler("Error del servidor"))
 }
